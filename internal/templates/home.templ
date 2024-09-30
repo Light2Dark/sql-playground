@@ -1,0 +1,24 @@
+package templates
+
+import "github.com/Light2Dark/sql-playground/internal/components"
+
+templ Home() {
+	@components.Layout(Display())
+}
+
+templ Display() {
+	<div class="flex flex-col justify-center items-center h-full">
+		<h1 class="text-xl">Learn some SQL optimization tips!</h1>
+		<form method="POST" hx-post="/submit" hx-target="#results">
+			<div class="flex flex-col gap-4 items-center">
+				<textarea 
+					name="editor" id="editor" 
+					placeholder="SELECT * FROM users;" 
+					rows="8" cols="60" 
+					class="mt-4 p-2 rounded-sm"></textarea>
+				<button class="w-min border rounded-md bg-black text-gray-50 px-4 py-2">Submit</button>
+			</div>
+		</form>
+		<p id="results" class="mt-8"></p>
+	</div>
+}

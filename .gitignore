@@ -1,0 +1,8 @@
+**/tailwindcss
+**/htmx.min.js
+*.env
+bin/*
+.vscode
+
+# excluded files here
+!.keep
