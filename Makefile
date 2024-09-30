@@ -3,7 +3,7 @@ setup-mac:
 	chmod +x tailwindcss-macos-arm64
 	mv tailwindcss-macos-arm64 static/css/tailwindcss
 
-	curl -sL https://unpkg.com/htmx.org/dist/htmx.min.js > ./static/htmx.min.js
+	curl -sL https://unpkg.com/htmx.org@2.0.2/dist/htmx.min.js > ./static/htmx.min.js
 
 setup:
 	curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64

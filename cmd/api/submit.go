@@ -18,19 +18,23 @@ type User struct {
 func (app application) submitHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	data := r.Form.Get("editor")
-	app.logger.Debug("submit called", "data", data)
+	query := r.Form.Get("editor")
+	app.logger.Debug("submit called", "query", query)
 
-	rows, err := app.db.Query(r.Context(), `SELECT * from users`)
+	rows, err := app.db.Query(r.Context(), query)
 	if err != nil {
-		app.logger.Error("error querying the database", "error", err)
 		templates.Message(fmt.Sprintf("Error: %v", err)).Render(r.Context(), w)
+		return
 	}
 	defer rows.Close()
 
-	users, err := pgx.CollectRows(rows, pgx.RowToStructByName[User])
-	if err != nil {
-		panic(err)
+	var res [][]any
+	for rows.Next() {
+		rowResponse, err := rows.Values()
+		if err != nil {
+			app.logger.Error(fmt.Sprintf("Error: %v"))
+		}
+		res = append(res, rowResponse)
 	}
 
 	templates.Message(fmt.Sprintf("Results: %v", res)).Render(r.Context(), w)
