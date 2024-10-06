@@ -32,7 +32,7 @@ func (app application) submitHandler(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		rowResponse, err := rows.Values()
 		if err != nil {
-			app.logger.Error(fmt.Sprintf("Error: %v"))
+			app.logger.Error(fmt.Sprintf("Error: %v", err))
 		}
 		res = append(res, rowResponse)
 	}

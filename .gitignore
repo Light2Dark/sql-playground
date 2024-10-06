@@ -3,6 +3,7 @@
 *.env
 bin/*
 .vscode
+**/*_templ.txt
 
 # excluded files here
 !.keep

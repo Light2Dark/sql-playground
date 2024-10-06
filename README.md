@@ -1,19 +1,24 @@
-# GoLang Template
+# SQL Playground
 
-HTMX + Go + TailwindCSS + Templ
-
-- Comes with hot-reload
-- Uses slog for logging, tint for colorized logging
+Uses Go-starter repo
 
 ## Installation
 
-Run make commands to setup and start the server.
+Run make commands to setup 
 
 ```
 make setup          # Installs wgo, templ
+make setup_mac      # Installs wgo, templ for mac
+```
 
-make dev            # Start a server locally
+Running the server
+```
+docker-compose up   # Start the database
+make dev            # Start the server
 make dev port=9000  # Start a server at a specific port
+```
 
-make build          # Build the binary
+Build the binary
+```
+make build
 ```

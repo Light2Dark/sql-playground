@@ -60,7 +60,7 @@ func Display() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col justify-center items-center h-full\"><h1 class=\"text-xl\">Learn some SQL optimization tips!</h1><form method=\"POST\" hx-post=\"/submit\" hx-target=\"#results\"><div class=\"flex flex-col gap-4 items-center\"><textarea name=\"editor\" id=\"editor\" placeholder=\"SELECT * FROM users;\" rows=\"8\" cols=\"60\" class=\"mt-4 p-2 rounded-sm\"></textarea> <button class=\"w-min border rounded-md bg-black text-gray-50 px-4 py-2\">Submit</button></div></form><p id=\"results\" class=\"mt-8\"></p></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col justify-center items-center h-full\"><p>Hello</p><h1 class=\"text-xl\">Learn some SQL optimization tips!</h1><form method=\"POST\" hx-post=\"/submit\" hx-target=\"#results\"><div class=\"flex flex-col gap-4 items-center\"><textarea name=\"editor\" id=\"editor\" placeholder=\"SELECT * FROM users;\" rows=\"8\" cols=\"60\" class=\"mt-4 p-2 rounded-sm\"></textarea> <button class=\"w-min border rounded-md bg-black text-gray-50 px-4 py-2\">Submit</button></div></form><p id=\"results\" class=\"mt-8\"></p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

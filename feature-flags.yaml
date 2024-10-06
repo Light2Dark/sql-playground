@@ -1,0 +1,13 @@
+test-flag:
+  variations:
+    use-new: true
+    use-old: false
+  targeting:
+    - query: key == "unique-key-1"
+      percentage:
+        use-new: 100
+        use-old: 0
+  defaultRule:
+    variation: use-old
+  metadata:
+    description: "this is a test flag"

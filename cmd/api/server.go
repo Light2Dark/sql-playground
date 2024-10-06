@@ -11,7 +11,10 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/joho/godotenv"
 	"github.com/lmittmann/tint"
+	ffclient "github.com/thomaspoignant/go-feature-flag"
+	"github.com/thomaspoignant/go-feature-flag/retriever/fileretriever"
 )
 
 type application struct {
@@ -23,21 +26,31 @@ func main() {
 	port := flag.Int("port", 8080, "Port number to serve the server")
 	flag.Parse()
 
+	err := godotenv.Load()
+	if err != nil {
+		slog.Info(".env file not detected")
+	}
+
+	var (
+		host     = os.Getenv("POSTGRES_HOST")
+		dbPort   = 5432
+		user     = os.Getenv("POSTGRES_USER")
+		password = os.Getenv("POSTGRES_PASSWORD")
+		dbname   = os.Getenv("POSTGRES_DB")
+		env      = os.Getenv("ENVIRONMENT")
+	)
+
+	var logLevel = slog.LevelInfo
+	if env == "DEV" {
+		logLevel = slog.LevelDebug
+	}
+
 	logger := slog.New(tint.NewHandler(os.Stdout, &tint.Options{
-		Level:      slog.LevelDebug,
+		Level:      logLevel,
 		TimeFormat: time.Kitchen,
 	}))
 
-	const (
-		host     = "localhost"
-		dbPort   = 5432
-		user     = "postgres"
-		password = "postgres"
-		dbname   = "postgres"
-		sslmode  = "disable"
-	)
-
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s", host, dbPort, user, dbname, password, sslmode)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", host, dbPort, user, dbname, password)
 	dbpool, err := pgxpool.New(context.Background(), psqlInfo)
 	if err != nil {
 		logger.Error("unable to connect to database", "error", err)
@@ -52,6 +65,17 @@ func main() {
 		logger: logger,
 		db:     dbpool,
 	}
+
+	err = ffclient.Init(ffclient.Config{
+		PollingInterval: 3 * time.Second,
+		Retriever: &fileretriever.Retriever{
+			Path: "feature-flags.yaml",
+		},
+	})
+	if err != nil {
+		logger.Error("feature-flags file not detected")
+	}
+	defer ffclient.Close()
 
 	router := http.NewServeMux()
 
